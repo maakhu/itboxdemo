@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getItems, getItem } from "./db.js";
+import { getItems, getItem, getItemsInRentByDate } from "./db.js";
 const app = express();
 app.use(express.json());
 
@@ -15,7 +15,12 @@ app.get("/cikktetelek/:id", async (req, res) => {
   res.send(item);
 });
 
-
+app.get("/berbeadottak/:date", async (req, res) => {
+  const date = req.params.date;
+  console.log("date " + date)
+  const inRent = await getItemsInRentByDate(date);
+  res.send(inRent);
+});
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

@@ -18,14 +18,32 @@ export async function getItems() {
 }
 
 export async function getItem(id) {
-  const [rows] = await pool.query(`
+  const [rows] = await pool.query(
+    `
     SELECT * FROM cikktetel 
-    WHERE tetelszam=?`, [id]);
+    WHERE tetelszam=?`,
+    [id]
+  );
   return rows[0];
 }
 
 // etc further functions as create, update, delete should come here, but we don't need them now based on the task
 
-const items = await getItems();
-const item = await getItem(1);
-console.log(items);
+export async function getItemsInRentByDate(date) {
+  const [rows] = await pool.query(
+    `
+    SELECT ((SELECT SUM(mennyiseg)
+    FROM cikktetel
+    WHERE raktarkod = 'berlet'
+    AND datum < ?)
+    +
+    (SELECT COUNT(raktarkod)
+    FROM cikktetel
+    WHERE raktarkod = 'berlet'
+    AND mennyiseg > 0
+    AND datum = ?)) 
+    as berbeadottak_szama;`,
+    [date, date]
+  );
+  return rows[0];
+}
