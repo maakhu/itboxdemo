@@ -2,10 +2,17 @@ import express from "express";
 
 import { getItems, getItem } from "./db.js";
 const app = express();
+app.use(express.json());
 
-app.get("/cikktetel", async (req, res) => {
+app.get("/cikktetelek", async (req, res) => {
   const items = await getItems();
   res.send(items);
+});
+
+app.get("/cikktetelek/:id", async (req, res) => {
+  const id = req.params.id;
+  const item = await getItem(id);
+  res.send(item);
 });
 
 app.use((err, req, res, next) => {

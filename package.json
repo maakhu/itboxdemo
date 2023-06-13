@@ -5,6 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "dev": "npx nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,5 +23,8 @@
     "dotenv": "^16.1.4",
     "express": "^5.0.0-beta.1",
     "mysql2": "^3.3.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }
