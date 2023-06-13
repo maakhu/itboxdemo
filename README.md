@@ -23,9 +23,11 @@ currently the basic backend part is done, tested on local server:
      - show all
      - show one
      - show in rent by date  
+     - add test files
      - add design 
   - Backend improvement
     - Error handling on backend
     - add the rest of the crud operations
     - authentication
     - authorisation for the admin page
+    - add test files
