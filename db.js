@@ -17,5 +17,15 @@ async function getItems() {
   return rows;
 }
 
+async function getItem(id) {
+  const [rows] = await pool.query(`
+    SELECT * FROM cikktetel 
+    WHERE tetelszam=?`, [id]);
+  return rows[0];
+}
+
+// etc further functions as create, update, delete should come here, but we don't need them now based on the task
+
 const items = await getItems();
+const item = await getItem(1);
 console.log(items);
