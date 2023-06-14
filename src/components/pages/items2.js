@@ -1,22 +1,34 @@
-import React, { useEffect, useState } from "react";
-import fetchRentsByDate from "../../api/fetchRentsByDate";
+import React, { useEffect, useState, useCallback } from "react";
+import fetchItems from "../../api/FetchItems";
+import { useNavigate } from "react-router-dom";
 
-function Result() {
-  const [result, setItemsData] = useState([]);
+function Items() {
+  const [itemsData, setItemsData] = useState([]);
 
   const [response, setResponse] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchRentsByDate().then((response) => {
+    fetchItems().then((response) => {
       setResponse(response.message);
     });
   }, []);
+
+  const getItems = useCallback(async () => {
+    fetchItems().then((itemsData) => {
+      setItemsData(itemsData.items);
+    });
+  }, []);
+
+  useEffect(() => {
+    getItems();
+  }, [getItems]);
 
   return (
     <div className="itemsPage">
       <section className="itemsContainer">
         <ul className="itemList">
-          {result.map((item) => {
+          {itemsData.map((item) => {
             return (
               <li className="oneItem" key={item.tetelszam}>
                 <div className="itemTitle">
@@ -36,4 +48,4 @@ function Result() {
   );
 }
 
-export default Result;
+export default Items;

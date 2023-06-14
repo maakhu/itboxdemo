@@ -3,6 +3,7 @@ import Main  from "./components/Main";
 import NotFound from "./components/pages/NotFound";
 import Admin from "./components/Admin";
 import Items from "./components/pages/items";
+import Rent from "./components/pages/inRent";
 
 
 function App() {
@@ -16,6 +17,8 @@ function App() {
         <Route path="/queries" element={<h1>Here you can send DB Queries</h1>} />
         <Route path="/admin" element={<Admin/>} />
         <Route path="/items" element={<Items/>} />
+        <Route path="/rent" element={<Rent/>} />
+ 
       </Routes>
     </BrowserRouter>
   );

@@ -1,53 +1,65 @@
-// write a react component that renders a list of items from the database fetch
+import React, { useEffect, useState } from "react";
 
-import React, { useEffect, useState, useCallback } from "react";
-import fetchItems from "../../api/fetchItems";
-import { useNavigate } from "react-router-dom";
-
-function Items() {
-  const [itemsData, setItemsData] = useState([]);
-
-  const [response, setResponse] = useState("");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchItems().then((response) => {
-      setResponse(response.message);
-    });
-  }, []);
-
-  const getItems = useCallback(async () => {
-    fetchItems().then((itemsData) => {
-      setItemsData(itemsData.items);
-    });
-  }, []);
-
-  useEffect(() => {
-    getItems();
-  }, [getItems]);
-
-  return (
-    <div className="itemsPage">
-      <section className="itemsContainer">
-        <ul className="itemList">
-          {itemsData.map((item) => {
-            return (
-              <li className="oneItem" key={item.tetelszam}>
-                <div className="itemTitle">
-                  <h4 className="itemTitle">{item.cikkszam}</h4>
-                </div>
-                <div className="transactionDate">
-                  <p className="transactionDate">
-                    Level: {item.datum}
-                  </p>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-    </div>
-  );
+function getItems() {
+  return fetch(`http://127.0.0.1:8080/cikktetelek`, {
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  }).then((response) => response.json());
 }
 
-export default Items;
+const FetchItems = () => {
+  const [items, setItems] = useState([]);
+  // const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchNewItems() {
+      const fetchedItems = await getItems();
+      setItems(fetchedItems);
+    }
+    fetchNewItems();
+  }, []);
+  // useEffect(() => {
+  //   async function fetchItems() {
+  //     try {
+  //       await fetch("http://127.0.0.1:8080/cikktetelek", {
+  //         mode: "no-cors",
+  //       }).then((res) => {
+  //         if (res.status !== 200) {
+
+  //         } else {
+  //           const newItems = res.data;
+  //           setItems(newItems);
+  //         }
+  //       });
+
+  //       // if (!response.ok) {
+  //       //   throw new Error("Failed to fetch items");
+  //       // }
+
+  //       // const jsonData = await response.json();
+  //       // console.log(jsonData);
+  //       // setItems(jsonData);
+  //     } catch (err) {
+  //       console.error(err);
+  //       // setError(err);
+  //     }
+  //   }
+  //   fetchItems();
+  // }, []);
+
+  return (
+    <div>
+      <h1>List of Items</h1>
+      {items.map((item) => (
+        <div key={item.id}>
+          <p>{item.datum}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default FetchItems;
