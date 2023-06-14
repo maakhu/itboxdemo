@@ -12,7 +12,6 @@
 .button{
   display: block;
   position:absolute center;
-  vertical-align:-webkit-baseline-middle;
   background-color: rgb(80, 141, 254);
   margin-left: clamp(15%,35%,40%);
   margin-right: clamp(15%,35%,40%);

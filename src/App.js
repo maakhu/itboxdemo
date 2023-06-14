@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main  from "./components/Main";
 import NotFound from "./components/pages/NotFound";
+import Admin from "./components/Admin";
+
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
         <Route path="/contact" element={<h1>Contact</h1>} />
         <Route path="*" element={<NotFound/>} />
         <Route path="/queries" element={<h1>Here you can send DB Queries</h1>} />
+        <Route path="/Admin" element={<Admin/>} />
       </Routes>
     </BrowserRouter>
   );
