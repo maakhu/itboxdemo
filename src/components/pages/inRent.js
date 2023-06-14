@@ -1,39 +1,42 @@
 import React, { useEffect, useState } from "react";
 import fetchRentsByDate from "../../api/fetchRentsByDate";
 
-function Result() {
-  const [result, setItemsData] = useState([]);
 
-  const [response, setResponse] = useState("");
+
+const Component = () => {
+  const [data, setData] = useState();
 
   useEffect(() => {
-    fetchRentsByDate().then((response) => {
-      setResponse(response.message);
-    });
+    // fetch data
+    const dataFetch = async () => {
+      const data = await (
+        await fetch(
+          "http://127.0.0.1:8080/berbeadottak/2014-12-31",
+          {
+            method: "GET",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      ).json();
+
+      // set state when the data received
+      setData(data);
+    };
+
+    dataFetch();
   }, []);
 
   return (
-    <div className="itemsPage">
-      <section className="itemsContainer">
-        <ul className="itemList">
-          {result.map((item) => {
-            return (
-              <li className="oneItem" key={item.tetelszam}>
-                <div className="itemTitle">
-                  <h4 className="itemTitle">{item.cikkszam}</h4>
-                </div>
-                <div className="transactionDate">
-                  <p className="transactionDate">
-                    Level: {item.datum}
-                  </p>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+    <div>
+      <h1>Result of the query:</h1>
+        <div>
+          <p>{data}</p>
+        </div>
+     
     </div>
   );
 }
-
-export default Result;
+export default Component;
